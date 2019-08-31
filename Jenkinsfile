@@ -3,11 +3,11 @@ pipeline {
   stages {
     stage('Copy To Windows Build Location') {
       steps {
-        sh '''rm -rf /mnt/KETOsis-Master
-cp -a $WORKSPACE /mnt/KETOsis-Master
+        sh '''rm -rf /mnt/ketosis
+cp -a $WORKSPACE /mnt/ketosis
 cd /mnt
-cp compile-keto.sh KETOsis-Master/compile-keto.sh 
-cd KETOsis-Master
+cp build.sh ketosis/build.sh 
+cd ketosis
 qmake
 make distclean 
 '''
@@ -25,7 +25,7 @@ cd ../../'''
         }
         stage('Windows') {
           steps {
-            sh '''cd /mnt/KETOsis-Master/
+            sh '''cd /mnt/ketosis/
 export PATH=/mnt/mxe/usr/bin:$PATH
 cd src/leveldb
 chmod +x build_detect_platform
@@ -51,8 +51,8 @@ make -j3 -f makefile.unix'''
         stage('Windows Wallet') {
           steps {
             sh '''export PATH=/mnt/mxe/usr/bin:$PATH
-cd /mnt/KETOsis-Master
-./compile-keto.sh'''
+cd /mnt/ketosis
+./build.sh'''
           }
         }
       }
